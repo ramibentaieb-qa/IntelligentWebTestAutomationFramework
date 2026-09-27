@@ -1,0 +1,34 @@
+name: Selenium Cucumber Automation Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Maven Test Command
+        run: mvn clean test
+
+      # New Step: Save and upload the Cucumber HTML Report
+      - name: Upload Cucumber HTML Report
+        if: always() # Runs even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report # Name of the zip file to download
+          path: target/cucumber-reports/ # Path to your generated report
