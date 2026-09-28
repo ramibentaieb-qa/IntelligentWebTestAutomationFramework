@@ -23,6 +23,12 @@ jobs:
           cache: maven
 
       - name: Run Maven Test Command
+        env:
+          # If GEMINI_API_KEY isn't set (e.g. a fork without the secret configured),
+          # GeminiApiProvider degrades gracefully instead of failing the build --
+          # tests still run normally, just without AI analysis on failures.
+          AI_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: mvn clean test
 
       # New Step: Save and upload the Cucumber HTML Report
