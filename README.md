@@ -1,3 +1,5 @@
+[![Selenium Cucumber Automation Tests](https://github.com/ramibentaieb-qa/IntelligentWebTestAutomationFramework/actions/workflows/maven-tests.yml/badge.svg)](https://github.com/ramibentaieb-qa/IntelligentWebTestAutomationFramework/actions/workflows/maven-tests.yml)
+
 # Intelligent Web Test Automation Framework
 
 This is a small Selenium and Cucumber test framework that I extended so it can explain its own failures. When a test fails, it sends a screenshot, the page HTML and the assertion message to an AI model, and the model says what probably went wrong and what to try next.
