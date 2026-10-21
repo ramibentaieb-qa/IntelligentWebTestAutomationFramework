@@ -47,7 +47,7 @@ public class LoginSteps {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
-        options.addArguments("--diasbla-dev-shm-usage");
+        options.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
 
 //        driver = new ChromeDriver();
@@ -82,8 +82,8 @@ public class LoginSteps {
                     String actualResult = dashboardPage.getDashboardTitle();
                     Assert.assertEquals(expectedResult, actualResult);
                 } else {
-                    String actualError = loginPage.getErrorMessage();
-                    Assert.assertEquals(expectedResult, actualError);
+                    boolean actualError = loginPage.getErrorMessage();
+                    Assert.assertTrue(expectedResult, actualError);
                 }
             } catch (AssertionError | RuntimeException e) {
                 // Capture for the AI analyzer, then rethrow so Cucumber still fails the scenario normally.

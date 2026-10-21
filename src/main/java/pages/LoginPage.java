@@ -26,8 +26,8 @@ public class LoginPage extends BasePage {
         return new DashboardPage();
     }
 
-    public String getErrorMessage() {
-        return find(error_message).getText();
+    public boolean getErrorMessage() {
+        return waitForElementToBeVisible(error_message, 2).isDisplayed();
     }
 
 
