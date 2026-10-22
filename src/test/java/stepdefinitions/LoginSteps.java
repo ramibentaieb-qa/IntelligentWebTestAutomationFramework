@@ -11,7 +11,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -80,10 +80,10 @@ public class LoginSteps {
         try {
                 if (expectedResult.contains("Dashboard")) {
                     String actualResult = dashboardPage.getDashboardTitle();
-                    Assert.assertEquals(expectedResult, actualResult);
+                    Assertions.assertEquals(expectedResult, actualResult);
                 } else {
                     boolean actualError = loginPage.getErrorMessage();
-                    Assert.assertTrue(expectedResult, actualError);
+                    Assertions.assertTrue(actualError, expectedResult);
                 }
             } catch (AssertionError | RuntimeException e) {
                 // Capture for the AI analyzer, then rethrow so Cucumber still fails the scenario normally.
