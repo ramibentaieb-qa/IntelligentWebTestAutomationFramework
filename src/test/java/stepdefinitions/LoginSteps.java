@@ -128,5 +128,34 @@ public class LoginSteps {
 
         System.out.println(report);
         scenario.attach(report, "text/plain", "ai-analysis");
+        appendToMarkdownReport(scenario, verdict);
+    }
+
+    private void appendToMarkdownReport(Scenario scenario, Verdict verdict) {
+        java.io.File reportFile = new java.io.File("target/ai-analysis-report.md");
+        reportFile.getParentFile().mkdirs();
+
+        boolean isNewFile = !reportFile.exists();
+
+        try (java.io.FileWriter writer = new java.io.FileWriter(reportFile, true)) {
+            if (isNewFile) {
+                writer.write("# AI Failure Analysis Report\n\n");
+            }
+
+            String timestamp = java.time.LocalDateTime.now()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            writer.write("## " + scenario.getName() + "\n\n");
+            writer.write("- **Time:** " + timestamp + "\n");
+            writer.write("- **Category:** " + verdict.category() + "\n");
+            writer.write("- **Summary:** " + verdict.summary() + "\n");
+            if (verdict.suggestedFix() != null && !verdict.suggestedFix().isBlank()) {
+                writer.write("- **Suggested fix:** " + verdict.suggestedFix() + "\n");
+            }
+            writer.write("\n---\n\n");
+
+        } catch (java.io.IOException e) {
+            System.err.println("[AI] Could not write Markdown report: " + e.getMessage());
+        }
     }
 }
