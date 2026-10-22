@@ -94,7 +94,6 @@ abstract class AbstractAIProvider implements AIProvider {
                     json.optString("suggestedFix", "")
             );
         } catch (Exception e) {
-            // Model didn't return clean JSON -- still surface its raw answer rather than failing the pipeline.
             return new Verdict(Verdict.Category.UNKNOWN, rawText.trim(), "");
         }
     }

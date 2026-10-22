@@ -86,7 +86,6 @@ public class LoginSteps {
                     Assertions.assertTrue(actualError, expectedResult);
                 }
             } catch (AssertionError | RuntimeException e) {
-                // Capture for the AI analyzer, then rethrow so Cucumber still fails the scenario normally.
                 lastErrorMessage = e.getMessage();
                 throw e;
             }

@@ -1,8 +1,7 @@
 package ai;
 
 /**
- * Disables AI analysis entirely. Selected with AI_PROVIDER=none — useful for
- * running the suite fast with zero network calls (e.g. quick local iteration).
+ * Disables AI analysis entirely. Selected with AI_PROVIDER=none — useful for running the suite fast with zero network calls (e.g. quick local iteration).
  */
 public class NoOpProvider implements AIProvider {
 

@@ -24,17 +24,13 @@ jobs:
 
       - name: Run Maven Test Command
         env:
-          # If GEMINI_API_KEY isn't set (e.g. a fork without the secret configured),
-          # GeminiApiProvider degrades gracefully instead of failing the build --
-          # tests still run normally, just without AI analysis on failures.
           AI_PROVIDER: groq
           GEMINI_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: mvn clean test
 
-      # New Step: Save and upload the Cucumber HTML Report
       - name: Upload Cucumber HTML Report
-        if: always() # Runs even if tests fail
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-html-report # Name of the zip file to download
-          path: target/cucumber-reports/ # Path to your generated report
+          name: cucumber-html-report
+          path: target/cucumber-reports/
