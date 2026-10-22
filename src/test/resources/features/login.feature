@@ -8,6 +8,6 @@ Feature: As an admin I want to log in the system so that I can access to Dashboa
 
     Examples:
       | username | password  | Result |
-      |  Admin   | admin12  | Dashboard |
-      |  Admin   | admin123  | Invalid credentials |
+      |  Admin   | admin123  | Dashboard |
+      |  Admin   | wrongPassword  | Invalid credentials |
       |  NotAdmin   | admin123  | Invalid credentials |
