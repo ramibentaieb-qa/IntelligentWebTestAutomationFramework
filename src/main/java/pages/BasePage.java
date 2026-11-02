@@ -11,11 +11,15 @@ import java.time.Duration;
 
 public class BasePage {
 
-    public static WebDriver driver;
+    protected final WebDriver driver;
 
-    public void setDriver(WebDriver driver) {
-        BasePage.driver = driver;
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
     }
+
+//    public void setDriver(WebDriver driver) {
+//        BasePage.driver = driver;
+//    }
 
     protected WebElement find(By locator) {
         return driver.findElement(locator);

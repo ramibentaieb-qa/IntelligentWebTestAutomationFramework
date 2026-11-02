@@ -4,6 +4,7 @@ import ai.AIProvider;
 import ai.AIProviderFactory;
 import ai.FailureContext;
 import ai.Verdict;
+import base.TestContext;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -23,13 +24,16 @@ import pages.LoginPage;
 
 import java.time.Duration;
 
+import static pages.BasePage.driver;
+
 
 public class LoginSteps {
 
-    protected WebDriver driver;
-    protected BasePage basePage;
-    protected LoginPage loginPage;
-    protected DashboardPage dashboardPage;
+    private final TestContext context;
+
+    public LoginSteps(TestContext context) {
+        this.context = context;
+    }
 
     // Captured when a step assertion fails, so tearDown can pass it to the AI provider.
     private String lastErrorMessage;
@@ -38,123 +42,36 @@ public class LoginSteps {
     private final AIProvider aiProvider = AIProviderFactory.create();
 
 
-    private String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
-
-    @Before
-    public void setUp() {
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-
-//        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-
-        basePage = new BasePage();
-        basePage.setDriver(driver);
-        loginPage = new LoginPage();
-        lastErrorMessage = null;
-    }
     @Given("the user is on the login page")
     public void navigateToLoginPage() {
-        driver.get(url);
+        context.getDriver().get(TestContext.url);
     }
 
     @When("he enters his {string} and his {string}")
     public void enterCredentials(String username, String password) {
-        loginPage.enterUsername(username);
-        loginPage.enterPassword(password);
+        context.loginPage().enterUsername(username);
+        context.loginPage().enterPassword(password);
     }
 
     @And("clicks on the login button")
     public void submitLogin() {
-        this.dashboardPage = loginPage.clickOnButtonLogin();
+        context.loginPage().clickOnButtonLogin();
     }
 
     @Then("he should be redirected to the {string} page")
     public void verifyDashboardPage(String expectedResult) {
         try {
                 if (expectedResult.contains("Dashboard")) {
-                    String actualResult = dashboardPage.getDashboardTitle();
+                    String actualResult = context.dashboardPage().getDashboardTitle();
                     Assertions.assertEquals(expectedResult, actualResult);
                 } else {
-                    boolean actualError = loginPage.getErrorMessage();
+                    boolean actualError = context.loginPage().getErrorMessage();
                     Assertions.assertTrue(actualError, expectedResult);
                 }
             } catch (AssertionError | RuntimeException e) {
                 lastErrorMessage = e.getMessage();
                 throw e;
             }
-    }
-
-    @After
-    public void tearDown(Scenario scenario) {
-        if (scenario.isFailed() && driver != null) {
-            analyzeFailure(scenario);
-        }
-        if (driver != null)  {
-            driver.quit();
-        }
-    }
-
-    private void analyzeFailure(Scenario scenario) {
-        byte[] screenshot = null;
-        String pageSource = null;
-
-        try {
-            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "failure-screenshot");
-        } catch (Exception e) {
-            System.out.println("[AI] Could not capture screenshot: " + e.getMessage());
-        }
-
-        try {
-            pageSource = driver.getPageSource();
-        } catch (Exception e) {
-            System.err.println("[AI] Could not capture page source: " + e.getMessage());
-        }
-
-        FailureContext context = new FailureContext(scenario.getName(), screenshot, pageSource, lastErrorMessage);
-        Verdict verdict = aiProvider.analyze(context);
-
-        String report = "[AI FAILURE ANALYSIS] " + verdict.category() + " -- " + verdict.summary()
-                + ((verdict.suggestedFix() == null || verdict.suggestedFix().isBlank())
-                ? "" : " | Suggested fix: " + verdict.suggestedFix());
-
-        System.out.println(report);
-        scenario.attach(report, "text/plain", "ai-analysis");
-        appendToMarkdownReport(scenario, verdict);
-    }
-
-    private void appendToMarkdownReport(Scenario scenario, Verdict verdict) {
-        java.io.File reportFile = new java.io.File("target/ai-analysis-report.md");
-        reportFile.getParentFile().mkdirs();
-
-        boolean isNewFile = !reportFile.exists();
-
-        try (java.io.FileWriter writer = new java.io.FileWriter(reportFile, true)) {
-            if (isNewFile) {
-                writer.write("# AI Failure Analysis Report\n\n");
-            }
-
-            String timestamp = java.time.LocalDateTime.now()
-                    .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-            writer.write("## " + scenario.getName() + "\n\n");
-            writer.write("- **Time:** " + timestamp + "\n");
-            writer.write("- **Category:** " + verdict.category() + "\n");
-            writer.write("- **Summary:** " + verdict.summary() + "\n");
-            if (verdict.suggestedFix() != null && !verdict.suggestedFix().isBlank()) {
-                writer.write("- **Suggested fix:** " + verdict.suggestedFix() + "\n");
-            }
-            writer.write("\n---\n\n");
-
-        } catch (java.io.IOException e) {
-            System.err.println("[AI] Could not write Markdown report: " + e.getMessage());
-        }
     }
 }

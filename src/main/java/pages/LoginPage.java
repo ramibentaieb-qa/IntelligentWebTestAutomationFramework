@@ -1,9 +1,13 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
 
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
 
     private By username_input = By.name("username");
     private By password_input = By.name("password");
@@ -23,7 +27,7 @@ public class LoginPage extends BasePage {
 
     public DashboardPage clickOnButtonLogin() {
         click(login_button);
-        return new DashboardPage();
+        return new DashboardPage(driver);
     }
 
     public boolean getErrorMessage() {
