@@ -3,10 +3,13 @@ package base;
 import ai.FailureContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.AddUserPage;
 import pages.AdminUserPage;
 import pages.DashboardPage;
 import pages.LoginPage;
+
+import java.time.Duration;
 
 public class TestContext {
 
@@ -20,9 +23,16 @@ public class TestContext {
 
     private String errorMessage;
 
+    public static final String ADMIN_USERNAME = "Admin";
+    public static final String ADMIN_PASSWORD = "admin123";
+
 
     public void initDriver() {
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--headless=new", "--no-sandbox",
+//                "--disable-dev-shm-usage", "--window-size=1920,1080");
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         driver.manage().window().maximize();
     }
 

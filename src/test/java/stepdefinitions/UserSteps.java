@@ -17,11 +17,12 @@ public class UserSteps {
 
 
     @Given("the admin is logged in")
-    public void AdminLoggedIn(String username, String password) {
+    public void AdminLoggedIn() {
         context.getDriver().get(TestContext.url);
-        context.loginPage().enterPassword(username);
-        context.loginPage().enterPassword(password);
+        context.loginPage().enterUsername(TestContext.ADMIN_USERNAME);
+        context.loginPage().enterPassword(TestContext.ADMIN_PASSWORD);
         context.loginPage().clickOnButtonLogin();
+        context.dashboardPage().getDashboardTitle();
     }
 
     @When("he open the Add User form")

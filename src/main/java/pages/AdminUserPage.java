@@ -9,12 +9,12 @@ public class AdminUserPage extends BasePage {
         super(driver);
     }
 
-    private By title = By.cssSelector("h6[class='oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-level']");
-    private By addButton = By.xpath("div[class='orangehrm-header-container'] > button");
+    private By title = By.cssSelector("h6.oxd-topbar-header-breadcrumb-level");
+    private By addButton = By.cssSelector("div.orangehrm-header-container > button");
 
 
     public String getTitle() {
-        return driver.findElement(title).getText();
+        return waitForElementToBeVisible(title, 10).getText();
     }
 
     public AddUserPage clickAddButton() {

@@ -10,7 +10,7 @@ public class DashboardPage extends BasePage{
     }
 
     private By dashboard_title = By.xpath("//h6[text()='Dashboard']");
-    private By adminButton = By.xpath("ul > li:nth-child(1) > a");
+    private By adminButton = By.xpath("//span[text()='Admin']/ancestor::a");
 
 
     public String getDashboardTitle() {

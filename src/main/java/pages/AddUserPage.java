@@ -12,7 +12,7 @@ public class AddUserPage extends BasePage {
 
     private By userRoleDropdown = By.xpath("//label[text()='User Role']/../following-sibling::div//div[contains(@class,'oxd-select-text-input')]");
     private By statusDropdown = By.xpath("//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text-input')]");
-    private By employeeNameField = By.className("input[placeholder='Type for hints...']");
+    private By employeeNameField = By.cssSelector("input[placeholder='Type for hints...']");
     private By usernameField = By.xpath("//label[text()='Username']/../following-sibling::div//input[contains(@class,'oxd-input')]");
     private By passwordField = By.xpath("//label[text()='Password']/../following-sibling::div//input[contains(@class,'oxd-input')]");
     private By confirmPasswordField = By.xpath("//label[text()='Confirm Password']/../following-sibling::div//input[contains(@class,'oxd-input')]");
@@ -42,10 +42,15 @@ public class AddUserPage extends BasePage {
     }
 
     public void enterEmployeeName(String employeeName) {
+        String[] parts = employeeName.trim().split("\\s+");
+        String first = parts[0];
+        String last = parts[parts.length - 1];
+
         set(employeeNameField, employeeName);
-        waitForElementToBeVisible(employeeSuggestions, 5);
-        driver.findElement(By.cssSelector(".oxd-autocomplete-option"))
-                .click();
+
+        By suggestion = By.xpath("//div[contains(@class,'oxd-autocomplete-option')]"
+         + "//span[contains(.,'" + first + "') and contains(.,'" + last + "')]");
+        waitForElementToBeClickable(suggestion, 10).click();
     }
 
 
@@ -66,7 +71,7 @@ public class AddUserPage extends BasePage {
     }
 
     public void clickSave() {
-        click(saveButton);
+        waitForElementToBeVisible(saveButton, 10).click();
     }
 
     public void clickCancel() {
