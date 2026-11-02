@@ -9,11 +9,12 @@ public class DashboardPage extends BasePage{
         super(driver);
     }
 
-    private By dashboard_title = By.tagName("h6");
+    private By dashboard_title = By.xpath("//h6[text()='Dashboard']");
     private By adminButton = By.xpath("ul > li:nth-child(1) > a");
 
 
     public String getDashboardTitle() {
+        waitForElementToBeVisible(dashboard_title, 10);
         return find(dashboard_title).getText();
     }
 

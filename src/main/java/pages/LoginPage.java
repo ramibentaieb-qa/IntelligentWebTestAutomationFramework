@@ -18,20 +18,23 @@ public class LoginPage extends BasePage {
     //Constructors
 
     public void enterUsername(String username) {
+        waitForElementToBeVisible(username_input, 10);
         set(username_input, username);
     }
 
     public void enterPassword(String password) {
+        waitForElementToBeVisible(password_input, 10);
         set(password_input, password);
     }
 
     public DashboardPage clickOnButtonLogin() {
+        waitForElementToBeVisible(login_button, 10);
         click(login_button);
         return new DashboardPage(driver);
     }
 
     public boolean getErrorMessage() {
-        return waitForElementToBeVisible(error_message, 2).isDisplayed();
+        return waitForElementToBeVisible(error_message, 10).isDisplayed();
     }
 
 

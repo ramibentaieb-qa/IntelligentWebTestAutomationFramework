@@ -1,8 +1,17 @@
 Feature: Admin adds a new user account
 
-  Scenario: Add a ne user
-    Given then admin is logged in
+  Scenario Outline: Add a new user
+    Given the admin is logged in
     When he open the Add User form
-    And fills the new user infomration
-    And clicks the save button
-    Then a new user is added
+    And selects user role "<userRole>"
+    And selects status "<status>"
+    And enters employee name "<employeeName>"
+    And enters his username "<username>"
+    And enters his password "<password>"
+    And confirms his the password "<confirmPassword>"
+    And clicks on the save button
+    Then the new user should be added "<expectedResult>"
+
+  Examples:
+    | userRole | status  | employeeName | username | password     | confirmPassword |expectedResult |
+    | ESS      | Enabled | Oliver Queen | oliverQ  | oliver1234   | oliver1234      | Admin         |

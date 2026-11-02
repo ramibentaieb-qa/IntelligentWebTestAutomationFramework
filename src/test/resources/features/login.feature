@@ -5,7 +5,6 @@ Feature: As an admin I want to log in the system so that I can access to Dashboa
     When he enters his "<username>" and his "<password>"
     And clicks on the login button
     Then he should be redirected to the "<Result>" page
-#    Then he should see "<Result>" for wrong credentials
 
     Examples:
       | username | password  | Result |
