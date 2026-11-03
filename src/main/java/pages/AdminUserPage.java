@@ -14,7 +14,7 @@ public class AdminUserPage extends BasePage {
 
 
     public String getTitle() {
-        return waitForElementToBeVisible(title, 10).getText();
+        return waitForElementToBeVisible(title, 15).getText();
     }
 
     public AddUserPage clickAddButton() {

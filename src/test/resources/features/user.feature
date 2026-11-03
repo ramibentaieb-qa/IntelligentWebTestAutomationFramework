@@ -14,4 +14,4 @@ Feature: Admin adds a new user account
 
   Examples:
     | userRole | status  | employeeName | username | password     | confirmPassword |expectedResult         |
-    | ESS      | Enabled | Jobin Sam | jobSam  | joSam12345 | joSam12345   | User Management         |
+    | ESS      | Enabled | Peter Anderson | peteranderson  | peterA12345 | peterA12345   | User Management         |
