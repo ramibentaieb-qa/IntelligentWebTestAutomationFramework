@@ -28,12 +28,15 @@ public class TestContext {
 
 
     public void initDriver() {
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless=new", "--no-sandbox",
-//                "--disable-dev-shm-usage", "--window-size=1920,1080");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.manage().window().maximize();
+        ChromeOptions options = new ChromeOptions();
+        if ("true".equalsIgnoreCase(System.getenv("CI"))) {
+            options.addArguments("--headless=new", "--no-sandbox",
+                    "--disable-dev-shm-usage", "--window-size=1920,1080");
+        } else {
+            options.addArguments("--start-maximized");
+        }
+        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     public WebDriver getDriver() {
