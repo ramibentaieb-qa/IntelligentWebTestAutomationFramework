@@ -66,47 +66,39 @@ src/test/resources/features/        Gherkin feature files
 ## Project map
 
 ```mermaid
-mindmap
-  root((Intelligent Web Test Automation Framework))
-    Tests
-      Features
-        login.feature
-        employee.feature
-        user.feature
-      Runners
-        TestLoginRunner
-        TestAddEmployeeRunner
-        TestAddUserRunner
-      Step definitions
-        LoginSteps
-        EmployeeSteps
-        UserSteps
-        Hooks
-      Shared
-        TestContext
-        TestData
-    Page Objects
-      BasePage
-      LoginPage
-      DashboardPage
-      AdminUserPage
-      AddUserPage
-      PimPage
-      AddEmployeePage
-    AI Failure Analysis
-      AIProvider
-      AIProviderFactory
-      AbstractAIProvider
-      GroqApiProvider
-      NoOpProvider
-      FailureContext
-      Verdict
-    Reports
-      Cucumber HTML reports
-      ai-analysis-report.md
-    CI
-      GitHub Actions
-      maven-tests.yml
+flowchart TD
+    root["Intelligent Web Test<br/>Automation Framework"]
+
+    root --> tests["Tests"]
+    root --> pages["Page Objects"]
+    root --> ai["AI Failure Analysis"]
+    root --> reports["Reports"]
+    root --> ci["CI"]
+
+    tests --> features["Features<br/>login.feature<br/>employee.feature<br/>user.feature"]
+    tests --> runners["Runners<br/>TestLoginRunner<br/>TestAddEmployeeRunner<br/>TestAddUserRunner"]
+    tests --> steps["Step definitions<br/>LoginSteps<br/>EmployeeSteps<br/>UserSteps<br/>Hooks"]
+    tests --> shared["Shared<br/>TestContext<br/>TestData"]
+
+    pages --> base["BasePage"]
+    base --> login["LoginPage"]
+    base --> dash["DashboardPage"]
+    base --> adminUser["AdminUserPage"]
+    base --> addUser["AddUserPage"]
+    base --> pim["PimPage"]
+    base --> addEmp["AddEmployeePage"]
+
+    ai --> iface["AIProvider<br/>interface"]
+    ai --> factory["AIProviderFactory<br/>reads AI_PROVIDER"]
+    iface --> abstract["AbstractAIProvider<br/>prompt and parsing"]
+    abstract --> groq["GroqApiProvider<br/>default"]
+    iface --> noop["NoOpProvider<br/>AI off"]
+    ai --> data["FailureContext<br/>Verdict"]
+
+    reports --> html["Cucumber HTML reports<br/>login, employee, user"]
+    reports --> md["ai-analysis-report.md"]
+
+    ci --> gha["GitHub Actions<br/>maven-tests.yml"]
 ```
 
 ## How the failure analysis works
