@@ -11,6 +11,7 @@ public class DashboardPage extends BasePage{
 
     private By dashboard_title = By.xpath("//h6[text()='Dashboard']");
     private By adminButton = By.xpath("//span[text()='Admin']/ancestor::a");
+    private By PimButton  = By.xpath("//span[text()='PIM']/ancestor::a");
 
 
     public String getDashboardTitle() {
@@ -21,6 +22,11 @@ public class DashboardPage extends BasePage{
     public AdminUserPage clickAdminButton() {
         click(adminButton);
         return new AdminUserPage(driver);
+    }
+
+    public PimPage clickPimButton() {
+        click(PimButton);
+        return new PimPage(driver);
     }
 
 }

@@ -13,5 +13,5 @@ Feature: Admin adds a new user account
     Then the new user should be added "<expectedResult>"
 
   Examples:
-    | userRole | status  | employeeName | username | password     | confirmPassword |expectedResult         |
-    | ESS      | Enabled | Megan Ortiz | meganOrtiz  | meganO12345 | meganO12345   | User Management         |
+    | userRole | status  | employeeName | username   | password     | confirmPassword |expectedResult         |
+    | ESS      | Enabled | jack smith   | j_Smith  | jsO12345     | jsO12345        | User Management       |

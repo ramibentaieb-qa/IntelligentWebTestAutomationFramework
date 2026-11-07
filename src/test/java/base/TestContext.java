@@ -4,10 +4,7 @@ import ai.FailureContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import pages.AddUserPage;
-import pages.AdminUserPage;
-import pages.DashboardPage;
-import pages.LoginPage;
+import pages.*;
 
 import java.time.Duration;
 
@@ -20,6 +17,8 @@ public class TestContext {
     private DashboardPage dashboardPage;
     private AdminUserPage adminUserPage;
     private AddUserPage addUserPage;
+    private PimPage pimPage;
+    private AddEmployeePage addEmployeePage;
 
     private String errorMessage;
 
@@ -61,6 +60,16 @@ public class TestContext {
     public AddUserPage addUserPage() {
         if (addUserPage == null) addUserPage = new AddUserPage(driver);
         return addUserPage;
+    }
+
+    public PimPage pimPage() {
+        if (pimPage == null) pimPage = new PimPage(driver);
+        return pimPage;
+    }
+
+    public AddEmployeePage addEmployeePage() {
+        if (addEmployeePage == null) addEmployeePage = new AddEmployeePage(driver);
+        return addEmployeePage;
     }
 
     public void setErrorMessage(String errorMessage) {
