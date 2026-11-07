@@ -12,7 +12,102 @@ I built it to practice UI test automation, and because reading failures is the p
 - Cucumber 7 on the JUnit 5 platform, Page Object pattern
 - GitHub Actions CI, uploading the Cucumber HTML report
 
-Tests run against the public OrangeHRM demo site: one feature, three login examples (valid, wrong password, unknown user).
+````
+1. Tests run against the public OrangeHRM demo site: three features: login,add employee,and add user.
+2. I generated unique test data on every test run, because the shared demo keeps what I create.
+3. Reports file: `login.html`, `employee.html`, and `user.html` in place of one `cucumber.html`.
+4. A “Known limits” bullet that the public demo can return 500s or reset, so an occasional red run can be the site and not the tests.
+````
+
+## Project structure
+
+```
+.github/workflows/maven-tests.yml   CI workflow (runs tests, uploads reports)
+pom.xml                             Maven dependencies and build config
+
+src/main/java/
+├── ai/                             AI failure analysis
+│   ├── AIProvider.java             Interface every backend implements
+│   ├── AIProviderFactory.java      Picks the backend from AI_PROVIDER
+│   ├── AbstractAIProvider.java     Shared prompt and verdict parsing
+│   ├── GroqApiProvider.java        Groq backend (default)
+│   ├── NoOpProvider.java           Used when AI analysis is turned off
+│   ├── FailureContext.java         Screenshot, page source and error message
+│   └── Verdict.java                Category, summary and suggested fix
+└── pages/                          Page Object classes
+    ├── BasePage.java               Shared waits and actions
+    ├── LoginPage.java
+    ├── DashboardPage.java
+    ├── AdminUserPage.java
+    ├── AddUserPage.java
+    ├── PimPage.java
+    └── AddEmployeePage.java
+
+src/test/java/
+├── base/
+│   ├── TestContext.java            Driver and pages shared per scenario
+│   └── TestData.java               Generates unique names, usernames and IDs
+├── runners/                        One JUnit 5 suite per feature
+│   ├── TestLoginRunner.java
+│   ├── TestAddEmployeeRunner.java
+│   └── TestAddUserRunner.java
+└── stepdefinitions/                Cucumber steps and hooks
+    ├── Hooks.java                  @Before / @After, runs the AI analysis
+    ├── LoginSteps.java
+    ├── EmployeeSteps.java
+    └── UserSteps.java
+
+src/test/resources/features/        Gherkin feature files
+├── login.feature
+├── employee.feature
+└── user.feature
+```
+
+## Project map
+
+```mermaid
+mindmap
+  root((Intelligent Web Test Automation Framework))
+    Tests
+      Features
+        login.feature
+        employee.feature
+        user.feature
+      Runners
+        TestLoginRunner
+        TestAddEmployeeRunner
+        TestAddUserRunner
+      Step definitions
+        LoginSteps
+        EmployeeSteps
+        UserSteps
+        Hooks
+      Shared
+        TestContext
+        TestData
+    Page Objects
+      BasePage
+      LoginPage
+      DashboardPage
+      AdminUserPage
+      AddUserPage
+      PimPage
+      AddEmployeePage
+    AI Failure Analysis
+      AIProvider
+      AIProviderFactory
+      AbstractAIProvider
+      GroqApiProvider
+      NoOpProvider
+      FailureContext
+      Verdict
+    Reports
+      Cucumber HTML reports
+      ai-analysis-report.md
+    CI
+      GitHub Actions
+      maven-tests.yml
+```
 
 ## How the failure analysis works
 
