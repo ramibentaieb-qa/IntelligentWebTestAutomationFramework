@@ -10,7 +10,7 @@ public class TestData {
     public static String uniqueLetters() {
         String numbers = uniqueNumber();
         String letters = "";
-        for (int i = 0; 1 < numbers.length(); i++) {
+        for (int i = 0; i < numbers.length(); i++) {
             int digit = numbers.charAt(i) - '0';
             letters = letters + (char) ('a' + digit);
         }

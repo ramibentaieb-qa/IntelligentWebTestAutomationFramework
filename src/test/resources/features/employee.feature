@@ -4,7 +4,7 @@ Feature: Admin adds a new employee account
     Given the admin is logged in the OHR
     When he opens the Add Employee form
     And types employee's full name "<firstName>", "<middleName>", and "<lastName>"
-    And types a unique employee id "<employeeId>"
+    And types a unique employee id
     And opens the login details
     And enters employee's username "<username>"
     And chooses the status of the employee
@@ -14,5 +14,5 @@ Feature: Admin adds a new employee account
     Then the new employee should be added "<expectedResult>"
 
     Examples:
-      | firstName | middleName  | lastName | employeeId | username  | password     | confirmPassword |expectedResult      |
-      | jack      | j           | smith    | 7532       | jackSmith | jack123      | jack123         | Success |
+      | firstName | middleName  | lastName | username  | password     | confirmPassword |expectedResult      |
+      | jack      | j           | smith    | jackSmith | jack123      | jack123         | Success |

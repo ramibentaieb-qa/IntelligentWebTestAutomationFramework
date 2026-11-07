@@ -43,8 +43,8 @@ public class EmployeeSteps {
         context.addEmployeePage().enterLastName(uniqueLastName);
     }
 
-    @And("types a unique employee id {string}")
-    public void enterEmployeeId(String employeeId) {
+    @And("types a unique employee id")
+    public void enterEmployeeId() {
         context.addEmployeePage().enterEmployeeId(TestData.uniqueNumber());
     }
 
