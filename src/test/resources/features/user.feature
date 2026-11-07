@@ -2,6 +2,7 @@ Feature: Admin adds a new user account
 
   Scenario Outline: Add a new user
     Given the admin is logged in
+    And an employee exists
     When he open the Add User form
     And selects user role "<userRole>"
     And selects status "<status>"

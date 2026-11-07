@@ -20,6 +20,9 @@ public class TestContext {
     private PimPage pimPage;
     private AddEmployeePage addEmployeePage;
 
+    private String employeeFirstName;
+    private String employeeLastName;
+
     private String errorMessage;
 
     public static final String ADMIN_USERNAME = "Admin";
@@ -78,6 +81,22 @@ public class TestContext {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public String getEmployeeFirstName() {
+        return employeeFirstName;
+    }
+
+    public void setEmployeeFirstName(String name) {
+        this.employeeFirstName = name;
+    }
+
+    public  String getEmployeeLastName() {
+        return employeeLastName;
+    }
+
+    public void setEmployeeLastName(String name) {
+        this.employeeLastName = name;
     }
 
     public void quitDriver() {

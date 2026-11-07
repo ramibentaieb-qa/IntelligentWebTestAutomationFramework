@@ -1,6 +1,7 @@
 package stepdefinitions;
 
 import base.TestContext;
+import base.TestData;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -25,6 +26,24 @@ public class UserSteps {
         context.dashboardPage().getDashboardTitle();
     }
 
+    @And("an employee exists")
+    public void anEmployeeExists() {
+        String firstName = "Rami";
+        String lastName = "Tester" + TestData.uniqueLetters();
+
+        context.dashboardPage().clickPimButton();
+        context.pimPage().getPageTitle();
+        context.pimPage().navigateToAddEmployeePage();
+
+        context.addEmployeePage().enterFirstName(firstName);
+        context.addEmployeePage().enterLastName(lastName);
+        context.addEmployeePage().clickSaveButton();
+        context.addEmployeePage().getSuccessAlertMessage();
+
+        context.setEmployeeFirstName(firstName);
+        context.setEmployeeLastName(lastName);
+    }
+
     @When("he open the Add User form")
     public void navigateToAddUserPage() {
         context.dashboardPage().clickAdminButton();
@@ -43,12 +62,13 @@ public class UserSteps {
 
     @And("enters employee name {string}")
     public void enterEmployeeName(String employeeName) {
-        context.addUserPage().enterEmployeeName(employeeName);
+        String fullName = context.getEmployeeFirstName() + " " + context.getEmployeeLastName();
+        context.addUserPage().enterEmployeeName(fullName);
     }
 
     @And("enters his username {string}")
     public void enterUsername(String username) {
-        context.addUserPage().enterUsername(username);
+        context.addUserPage().enterUsername(username + TestData.uniqueNumber());
     }
 
     @And("enters his password {string}")

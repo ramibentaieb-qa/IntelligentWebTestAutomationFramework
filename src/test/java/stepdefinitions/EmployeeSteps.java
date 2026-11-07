@@ -1,6 +1,7 @@
 package stepdefinitions;
 
 import base.TestContext;
+import base.TestData;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -33,14 +34,18 @@ public class EmployeeSteps {
 
     @And("types employee's full name {string}, {string}, and {string}")
     public void enterEmployeeFullName(String firstName, String middleName, String lastName) {
+        String uniqueLastName = lastName + TestData.uniqueLetters();
+        context.setEmployeeFirstName(firstName);
+        context.setEmployeeLastName(uniqueLastName);
+
         context.addEmployeePage().enterFirstName(firstName);
         context.addEmployeePage().enterMiddleName(middleName);
-        context.addEmployeePage().enterLastName(lastName);
+        context.addEmployeePage().enterLastName(uniqueLastName);
     }
 
     @And("types a unique employee id {string}")
     public void enterEmployeeId(String employeeId) {
-        context.addEmployeePage().enterEmployeeId(employeeId);
+        context.addEmployeePage().enterEmployeeId(TestData.uniqueNumber());
     }
 
     @And("opens the login details")
@@ -50,7 +55,7 @@ public class EmployeeSteps {
 
     @And("enters employee's username {string}")
     public void enterUsername(String username) {
-        context.addEmployeePage().enterUsername(username);
+        context.addEmployeePage().enterUsername(username + TestData.uniqueNumber());
     }
 
     @And("chooses the status of the employee")
